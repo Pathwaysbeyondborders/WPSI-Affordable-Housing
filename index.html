@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>West Philadelphia Skilled Initiative - Affordable Housing Budgeting</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: #0f172a;
+      color: #e5e7eb;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .app-container {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 24px;
+      background: #111827;
+      border-radius: 24px;
+      padding: 24px;
+      max-width: 1200px;
+      width: 100%;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+    }
+
+    @media (max-width: 900px) {
+      .app-container {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .left-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .header-title {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #38bdf8;
+    }
+
+    .header-subtitle {
+      font-size: 0.95rem;
+      color: #9ca3af;
+      max-width: 640px;
+    }
+
+    .card {
+      background: #020817;
+      border-radius: 18px;
+      padding: 16px 18px;
+      border: 1px solid rgba(148,163,253,0.15);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .card-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: #9ca3af;
+    }
+
+    .row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    label {
+      font-size: 0.8rem;
+      color: #9ca3af;
+    }
+
+    select, input {
+      background: #020817;
+      border-radius: 10px;
+      border: 1px solid #374151;
+      padding: 8px 10px;
+      color: #e5e7eb;
+      font-size: 0.9rem;
+      outline: none;
+      min-width: 140px;
+    }
+
+    select:focus, input:focus {
+      border-color: #38bdf8;
+      box-shadow: 0 0 0 1px rgba(56,189,248,0.2);
+    }
+
+    .section-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #bfdbfe;
+      margin-bottom: 4px;
+    }
+
+    .housing-options {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 10px;
+    }
+
+    .housing-card {
+      background: #020817;
+      border-radius: 12px;
+      padding: 10px;
+      border: 1px solid #1f2937;
+      cursor: pointer;
+      transition: all 0.18s ease;
+      font-size: 0.8rem;
+    }
+
+    .housing-card span {
+      display: block;
+    }
+
+    .housing-card strong {
+      font-size: 0.9rem;
+      color: #e5e7eb;
+    }
+
+    .housing-card.selected {
+      border-color: #38bdf8;
+      box-shadow: 0 0 15px rgba(56,189,248,0.25);
+      transform: translateY(-2px);
+    }
+
+    .results {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 10px;
+      margin-top: 4px;
+    }
+
+    .result-box {
+      background: #020817;
+      border-radius: 12px;
+      padding: 10px;
+      border: 1px solid #111827;
+      font-size: 0.8rem;
+    }
+
+    .result-label {
+      color: #6b7280;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .result-value {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-top: 4px;
+      color: #e5e7eb;
+    }
+
+    .result-note {
+      font-size: 0.7rem;
+      color: #9ca3af;
+      margin-top: 4px;
+    }
+
+    /* Right side debit card */
+
+    .right-panel {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: stretch;
+      gap: 16px;
+    }
+
+    .debit-card {
+      position: relative;
+      background: radial-gradient(circle at top left, #38bdf8 0%, #111827 40%, #4f46e5 100%);
+      border-radius: 22px;
+      padding: 18px 18px 14px;
+      color: #e5e7eb;
+      box-shadow: 0 16px 40px rgba(15,23,42,0.9);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      min-height: 180px;
+    }
+
+    .debit-chip {
+      width: 32px;
+      height: 24px;
+      border-radius: 6px;
+      border: 2px solid rgba(229,231,235,0.9);
+      margin-bottom: 4px;
+    }
+
+    .debit-label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      opacity: 0.85;
+    }
+
+    .debit-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+    }
+
+    .debit-balance-label {
+      font-size: 0.7rem;
+      opacity: 0.9;
+      margin-top: 4px;
+    }
+
+    .debit-balance {
+      font-size: 1.4rem;
+      font-weight: 700;
+    }
+
+    .debit-name {
+      margin-top: auto;
+      font-size: 0.8rem;
+      font-weight: 500;
+    }
+
+    .debit-tagline {
+      font-size: 0.65rem;
+      opacity: 0.9;
+    }
+
+    .side-note {
+      font-size: 0.72rem;
+      color: #9ca3af;
+      line-height: 1.4;
+    }
+  </style>
+</head>
+<body>
+<div class="app-container">
+  <!-- LEFT: Controls & Results -->
+  <div class="left-panel">
+    <div>
+      <div class="header-title">West Philadelphia Skilled Initiative<br>Affordable Housing Budgeting</div>
+      <p class="header-subtitle">
+        Choose a WPSI job, set your hours, and explore realistic West Philly housing options.
+        See how much of your paycheck can comfortably cover rent and what’s left on your WPSI Debit balance.
+      </p>
+    </div>
+
+    <!-- Job & Hours -->
+    <div class="card">
+      <div class="section-title">1. Select Your Job & Hours</div>
+      <div class="row">
+        <div>
+          <label for="jobSelect">Job Role</label><br />
+          <select id="jobSelect">
+            <option value="21">ASA - $21.00/hr</option>
+            <option value="19">UPenn Prez - $19.00/hr</option>
+            <option value="19">CHOP CA - $19.00/hr</option>
+            <option value="20">CHOP CLA - $20.00/hr</option>
+            <option value="26">AESPETIC TECH - $26.00/hr</option>
+          </select>
+        </div>
+        <div>
+          <label for="hoursPerWeek">Hours per week</label><br />
+          <input type="number" id="hoursPerWeek" value="40" min="5" max="60" />
+        </div>
+        <div>
+          <label for="taxRate">Est. taxes & deductions (%)</label><br />
+          <input type="number" id="taxRate" value="20" min="0" max="40" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Housing -->
+    <div class="card">
+      <div class="section-title">2. Choose an Apartment Option</div>
+      <div class="card-label">Studio, One Bedroom & Two Bedroom options from $1,100 to $1,700</div>
+      <div class="housing-options" id="housingOptions">
+        <!-- Filled by JS -->
+      </div>
+    </div>
+
+    <!-- Results -->
+    <div class="card">
+      <div class="section-title">3. Budget Snapshot</div>
+      <div class="results">
+        <div class="result-box">
+          <div class="result-label">Gross Monthly Income</div>
+          <div class="result-value" id="grossMonthly">$0</div>
+          <div class="result-note">Based on hourly rate × hours/week × 4.33</div>
+        </div>
+        <div class="result-box">
+          <div class="result-label">Estimated Take-Home</div>
+          <div class="result-value" id="netMonthly">$0</div>
+          <div class="result-note">After your selected tax & deduction rate.</div>
+        </div>
+        <div class="result-box">
+          <div class="result-label">Selected Rent</div>
+          <div class="result-value" id="rentAmount">$0</div>
+          <div class="result-note" id="rentTypeLabel">No apartment selected yet.</div>
+        </div>
+        <div class="result-box">
+          <div class="result-label">Left After Rent</div>
+          <div class="result-value" id="leftover">$0</div>
+          <div class="result-note" id="safetyNote"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT: WPSI Debit Card -->
+  <div class="right-panel">
+    <div class="debit-card">
+      <div class="debit-chip"></div>
+      <div class="debit-label">West Philadelphia Skilled Initiative</div>
+      <div class="debit-title">WPSI Debit</div>
+      <div class="debit-balance-label">Available after rent</div>
+      <div class="debit-balance" id="cardBalance">$0</div>
+      <div class="debit-name" id="cardName">Participant Name</div>
+      <div class="debit-tagline">Building real-world money moves with affordable housing choices.</div>
+    </div>
+    <div class="card">
+      <label for="participantName">Display name on card (optional)</label>
+      <input type="text" id="participantName" placeholder="Type your name for the WPSI Debit card" />
+      <p class="side-note">
+        Tip: Many experts suggest keeping rent at or below <strong>30% of your gross income</strong>.
+        Use this tool to see if your housing choice is sustainable while still covering food,
+        transportation, savings, and essentials.
+      </p>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Jobs & Housing Data
+  const HOUSING_OPTIONS = [
+    { id: 1, type: "Studio", rent: 1100 },
+    { id: 2, type: "Studio", rent: 1300 },
+    { id: 3, type: "1 Bedroom", rent: 1300 },
+    { id: 4, type: "1 Bedroom", rent: 1500 },
+    { id: 5, type: "2 Bedroom", rent: 1500 },
+    { id: 6, type: "2 Bedroom", rent: 1700 }
+  ];
+
+  const housingContainer = document.getElementById("housingOptions");
+  const jobSelect = document.getElementById("jobSelect");
+  const hoursPerWeekInput = document.getElementById("hoursPerWeek");
+  const taxRateInput = document.getElementById("taxRate");
+  const participantNameInput = document.getElementById("participantName");
+
+  const grossMonthlyEl = document.getElementById("grossMonthly");
+  const netMonthlyEl = document.getElementById("netMonthly");
+  const rentAmountEl = document.getElementById("rentAmount");
+  const rentTypeLabelEl = document.getElementById("rentTypeLabel");
+  const leftoverEl = document.getElementById("leftover");
+  const safetyNoteEl = document.getElementById("safetyNote");
+  const cardBalanceEl = document.getElementById("cardBalance");
+  const cardNameEl = document.getElementById("cardName");
+
+  let selectedHousing = null;
+
+  // Render housing cards
+  function renderHousingOptions() {
+    housingContainer.innerHTML = "";
+    HOUSING_OPTIONS.forEach(option => {
+      const div = document.createElement("div");
+      div.className = "housing-card";
+      div.dataset.id = option.id;
+      div.innerHTML = `
+        <span><strong>${option.type}</strong></span>
+        <span>Rent: $${option.rent.toLocaleString()}/month</span>
+      `;
+      div.addEventListener("click", () => {
+        document.querySelectorAll(".housing-card").forEach(c => c.classList.remove("selected"));
+        div.classList.add("selected");
+        selectedHousing = option;
+        updateAll();
+      });
+      housingContainer.appendChild(div);
+    });
+  }
+
+  function calculateGrossMonthly(hourly, hoursPerWeek) {
+    return hourly * hoursPerWeek * 4.33; // approx weeks/month
+  }
+
+  function updateAll() {
+    const hourly = parseFloat(jobSelect.value) || 0;
+    const hoursPerWeek = parseFloat(hoursPerWeekInput.value) || 0;
+    const taxRate = parseFloat(taxRateInput.value) || 0;
+
+    const gross = calculateGrossMonthly(hourly, hoursPerWeek);
+    const net = gross * (1 - taxRate / 100);
+
+    grossMonthlyEl.textContent = "$" + gross.toFixed(2);
+    netMonthlyEl.textContent = "$" + net.toFixed(2);
+
+    if (selectedHousing) {
+      const rent = selectedHousing.rent;
+      rentAmountEl.textContent = "$" + rent.toFixed(2);
+      rentTypeLabelEl.textContent = `${selectedHousing.type} selected`;
+
+      const leftover = net - rent;
+      leftoverEl.textContent = "$" + leftover.toFixed(2);
+      cardBalanceEl.textContent = "$" + Math.max(leftover, 0).toFixed(2);
+
+      const rentToIncome = gross > 0 ? (rent / gross) * 100 : 0;
+      if (rentToIncome === 0) {
+        safetyNoteEl.textContent = "";
+      } else if (rentToIncome <= 30) {
+        safetyNoteEl.textContent =
+          `Healthy choice: Rent is about ${rentToIncome.toFixed(1)}% of your gross income.`;
+      } else if (rentToIncome <= 40) {
+        safetyNoteEl.textContent =
+          `Caution: Rent is about ${rentToIncome.toFixed(1)}% of your gross income. Budget carefully.`;
+      } else {
+        safetyNoteEl.textContent =
+          `Warning: Rent is about ${rentToIncome.toFixed(1)}% of your gross income. This may be hard to sustain.`;
+      }
+    } else {
+      rentAmountEl.textContent = "$0.00";
+      rentTypeLabelEl.textContent = "No apartment selected yet.";
+      leftoverEl.textContent = "$0.00";
+      cardBalanceEl.textContent = "$0.00";
+      safetyNoteEl.textContent = "Select a housing option to see your WPSI Debit balance.";
+    }
+
+    const name = participantNameInput.value.trim();
+    cardNameEl.textContent = name ? name : "Participant Name";
+  }
+
+  // Event listeners
+  jobSelect.addEventListener("change", updateAll);
+  hoursPerWeekInput.addEventListener("input", updateAll);
+  taxRateInput.addEventListener("input", updateAll);
+  participantNameInput.addEventListener("input", updateAll);
+
+  // Init
+  renderHousingOptions();
+  updateAll();
+</script>
+</body>
+</html>

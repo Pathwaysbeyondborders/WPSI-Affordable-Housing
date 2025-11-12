@@ -644,7 +644,7 @@
           <div class="result-value" id="savingsMonthly">$0.00</div>
         </div>
         <div class="result-box">
-          <div class="result-label">Expenses (Excl. Rent & Savings)</div>
+          <div class="result-label">Total Monthly Expenses (Incl. Rent & Savings)</div>
           <div class="result-value" id="totalExpenses">$0.00</div>
         </div>
         <div class="result-box">
@@ -693,8 +693,8 @@
         <li>No expenses added yet.</li>
       </ul>
       <p class="side-note">
-        This box shows savings (treated as a planned expense) and every Swipe / Update organized
-        by category so participants can clearly see where their money goes.
+        Savings plus every Swipe / Update are organized by category so participants can clearly see
+        where their money goes each month.
       </p>
     </div>
   </div>
@@ -777,7 +777,6 @@
       delete expenses[key];
       input.value = "";
     } else {
-      // Try to infer category from label prefix "Category - Name"
       const parts = label.split(" - ");
       const category = parts.length > 1 ? parts[0] : "Other";
       expenses[key] = { label, amount, category };
@@ -805,7 +804,7 @@
     updateAll();
   }
 
-  function getTotalExpenses() {
+  function getOtherExpensesTotal() {
     return Object.values(expenses).reduce((sum, exp) => sum + (exp.amount || 0), 0);
   }
 
@@ -829,7 +828,6 @@
   function updateCardExpensesList(savingsAmount, savingsRate) {
     cardExpensesListEl.innerHTML = "";
 
-    // Savings at the top as its own line (treated like a planned expense)
     if (savingsAmount > 0) {
       const li = document.createElement("li");
       li.textContent = `Savings (${savingsRate.toFixed(0)}% of take-home): $${savingsAmount.toFixed(2)}`;
@@ -842,7 +840,6 @@
       return;
     }
 
-    // Group expenses by category label
     const byCategory = {};
     keys.forEach(key => {
       const exp = expenses[key];
@@ -858,7 +855,8 @@
       byCategory[cat].forEach(exp => {
         const li = document.createElement("li");
         li.style.paddingLeft = "10px";
-        li.textContent = `${exp.label.split(" - ").slice(1).join(" - ") || exp.label}: $${exp.amount.toFixed(2)}`;
+        const prettyLabel = exp.label.split(" - ").slice(1).join(" - ") || exp.label;
+        li.textContent = `${prettyLabel}: $${exp.amount.toFixed(2)}`;
         cardExpensesListEl.appendChild(li);
       });
     });
@@ -890,13 +888,12 @@
     const savings = net * (savingsRate / 100);
     savingsMonthlyEl.textContent = "$" + savings.toFixed(2);
 
-    const totalExpenses = getTotalExpenses();
-    totalExpensesEl.textContent = "$" + totalExpenses.toFixed(2);
+    const otherExpenses = getOtherExpensesTotal();
+    const totalAllExpenses = rent + savings + otherExpenses;
 
-    const afterRent = net - rent;
-    const afterSavings = afterRent - savings;
-    const leftover = afterSavings - totalExpenses;
+    totalExpensesEl.textContent = "$" + totalAllExpenses.toFixed(2);
 
+    const leftover = net - totalAllExpenses;
     leftoverEl.textContent = "$" + leftover.toFixed(2);
     cardBalanceEl.textContent = "$" + leftover.toFixed(2);
 
@@ -922,7 +919,7 @@
       }
     }
 
-    // Update right side displays
+    // Right side displays
     updateCardName();
     updateCardApartment();
 
@@ -959,7 +956,7 @@
     add("Summary", "Net Take-Home Pay", net);
     add("Summary", "Rent", rent);
     add("Summary", "Monthly Savings", savings);
-    add("Summary", "Other Expenses (Excl. Rent & Savings)", totalExp);
+    add("Summary", "Total Expenses (Incl. Rent & Savings)", totalExp);
     add("Summary", "Left After All", leftover);
 
     if (selectedHousing) {

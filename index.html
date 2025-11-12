@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>West Philadelphia Skilled Initiative - Affordable Housing Budgeting</title>
+  <title>Skilled Initiative - Affordable Housing Budgeting</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
     * {
@@ -100,11 +100,11 @@
       background: #020817;
       border-radius: 10px;
       border: 1px solid #374151;
-      padding: 8px 10px;
+      padding: 10px 12px; /* larger */
       color: #e5e7eb;
       font-size: 0.85rem;
       outline: none;
-      min-width: 120px;
+      min-width: 140px;
     }
 
     select:focus,
@@ -188,8 +188,8 @@
 
     .expense-groups {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 10px;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 12px;
     }
 
     .expense-group-title {
@@ -201,9 +201,9 @@
 
     .expense-row {
       display: grid;
-      grid-template-columns: 1.5fr 1fr auto;
+      grid-template-columns: 1.7fr 1.1fr auto;
       gap: 6px;
-      margin-bottom: 4px;
+      margin-bottom: 5px;
       align-items: center;
     }
 
@@ -212,16 +212,8 @@
       color: #9ca3af;
     }
 
-    .expense-row input[type="text"] {
-      min-width: 0;
-    }
-
-    .expense-row input[type="number"] {
-      min-width: 0;
-    }
-
     .swipe-btn {
-      padding: 6px 8px;
+      padding: 7px 9px;
       font-size: 0.7rem;
       border-radius: 999px;
       border: 1px solid #38bdf8;
@@ -237,12 +229,30 @@
       color: #020817;
     }
 
+    .download-btn {
+      margin-top: 8px;
+      padding: 8px 14px;
+      font-size: 0.8rem;
+      border-radius: 999px;
+      border: none;
+      background: #38bdf8;
+      color: #020817;
+      cursor: pointer;
+      font-weight: 600;
+      align-self: flex-start;
+      transition: all 0.18s ease;
+    }
+
+    .download-btn:hover {
+      background: #0ea5e9;
+      transform: translateY(-1px);
+    }
+
     /* Right side debit card */
 
     .right-panel {
       display: flex;
       flex-direction: column;
-      justify-content: flex-start;
       gap: 16px;
     }
 
@@ -307,6 +317,33 @@
       opacity: 0.9;
     }
 
+    .card-summary {
+      margin-top: 10px;
+      font-size: 0.72rem;
+      color: #d1d5db;
+      line-height: 1.4;
+    }
+
+    .card-summary-title {
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: #9ca3af;
+      margin-bottom: 4px;
+    }
+
+    .card-summary-list {
+      list-style: none;
+      padding-left: 0;
+      max-height: 140px;
+      overflow-y: auto;
+    }
+
+    .card-summary-list li {
+      margin-bottom: 2px;
+    }
+
     .side-note {
       font-size: 0.72rem;
       color: #9ca3af;
@@ -319,10 +356,10 @@
   <!-- LEFT: Controls & Results -->
   <div class="left-panel">
     <div>
-      <div class="header-title">West Philadelphia Skilled Initiative<br>Affordable Housing Budgeting</div>
+      <div class="header-title">Initiative<br>Affordable Housing Budgeting</div>
       <p class="header-subtitle">
-        Select your WPSI job, hours, and apartment. Then “swipe” your monthly expenses to see how
-        your decisions impact your WPSI Debit balance in real time.
+        Select your career, hours, housing, savings, and expenses. Each “Swipe / Update” simulates
+        a real-life purchase and updates your WPSI Debit balance instantly.
       </p>
     </div>
 
@@ -356,8 +393,8 @@
         </div>
       </div>
       <p class="side-note">
-        This tool automatically estimates taxes using Pennsylvania & Philadelphia income tax and standard payroll taxes
-        to show a realistic take-home pay for training purposes (not legal or tax advice).
+        This tool uses a combined estimate for federal, Pennsylvania, Philadelphia, and payroll taxes
+        for educational purposes (not official tax advice).
       </p>
     </div>
 
@@ -378,14 +415,17 @@
         </div>
       </div>
       <p class="side-note">
-        Recommended: aim for at least <strong>10%</strong> of your net income toward savings or emergency fund.
+        Aim for at least <strong>10%</strong> of your net income for savings or an emergency fund.
       </p>
     </div>
 
     <!-- Expenses -->
     <div class="card">
       <div class="section-title">4. Monthly Living Expenses</div>
-      <p class="card-label">Enter an amount, then click <strong>Swipe / Update</strong>. Set to 0 and Swipe to remove.</p>
+      <p class="card-label">
+        Enter an amount and (if custom) a charge name, then click <strong>Swipe / Update</strong>.
+        Set to 0 and Swipe to remove the expense.
+      </p>
       <div class="expense-groups">
 
         <!-- Utilities -->
@@ -394,33 +434,33 @@
           <div class="expense-row">
             <label>Electricity</label>
             <input type="number" id="exp-electricity" min="0" placeholder="0" />
-            <button class="swipe-btn" onclick="swipeExpense('electricity','exp-electricity')">Swipe / Update</button>
+            <button class="swipe-btn" onclick="swipeExpense('electricity','exp-electricity','Electricity')">Swipe / Update</button>
           </div>
           <div class="expense-row">
             <label>Gas</label>
             <input type="number" id="exp-gas" min="0" placeholder="0" />
-            <button class="swipe-btn" onclick="swipeExpense('gas','exp-gas')">Swipe / Update</button>
+            <button class="swipe-btn" onclick="swipeExpense('gas','exp-gas','Gas')">Swipe / Update</button>
           </div>
           <div class="expense-row">
             <label>Water/Sewer</label>
             <input type="number" id="exp-water" min="0" placeholder="0" />
-            <button class="swipe-btn" onclick="swipeExpense('water','exp-water')">Swipe / Update</button>
+            <button class="swipe-btn" onclick="swipeExpense('water','exp-water','Water/Sewer')">Swipe / Update</button>
           </div>
           <div class="expense-row">
             <label>Internet</label>
             <input type="number" id="exp-internet" min="0" placeholder="0" />
-            <button class="swipe-btn" onclick="swipeExpense('internet','exp-internet')">Swipe / Update</button>
+            <button class="swipe-btn" onclick="swipeExpense('internet','exp-internet','Internet')">Swipe / Update</button>
           </div>
           <div class="expense-row">
             <label>Cellphone</label>
             <input type="number" id="exp-cell" min="0" placeholder="0" />
-            <button class="swipe-btn" onclick="swipeExpense('cell','exp-cell')">Swipe / Update</button>
+            <button class="swipe-btn" onclick="swipeExpense('cell','exp-cell','Cellphone')">Swipe / Update</button>
           </div>
           <div class="expense-row">
-            <input type="text" id="exp-util-custom-label" placeholder="Custom charge" />
+            <input type="text" id="exp-util-custom-label" placeholder="Custom utility name" />
             <input type="number" id="exp-util-custom" min="0" placeholder="0" />
             <button class="swipe-btn"
-                    onclick="swipeExpense('util-custom','exp-util-custom','exp-util-custom-label')">Swipe / Update</button>
+              onclick="swipeCustom('util-custom','exp-util-custom','exp-util-custom-label')">Swipe / Update</button>
           </div>
         </div>
 
@@ -430,18 +470,18 @@
           <div class="expense-row">
             <label>Groceries</label>
             <input type="number" id="exp-groceries" min="0" placeholder="0" />
-            <button class="swipe-btn" onclick="swipeExpense('groceries','exp-groceries')">Swipe / Update</button>
+            <button class="swipe-btn" onclick="swipeExpense('groceries','exp-groceries','Groceries')">Swipe / Update</button>
           </div>
           <div class="expense-row">
             <label>Dining Out</label>
             <input type="number" id="exp-dining" min="0" placeholder="0" />
-            <button class="swipe-btn" onclick="swipeExpense('dining','exp-dining')">Swipe / Update</button>
+            <button class="swipe-btn" onclick="swipeExpense('dining','exp-dining','Dining Out')">Swipe / Update</button>
           </div>
           <div class="expense-row">
-            <input type="text" id="exp-food-custom-label" placeholder="Custom charge" />
+            <input type="text" id="exp-food-custom-label" placeholder="Custom food name" />
             <input type="number" id="exp-food-custom" min="0" placeholder="0" />
             <button class="swipe-btn"
-                    onclick="swipeExpense('food-custom','exp-food-custom','exp-food-custom-label')">Swipe / Update</button>
+              onclick="swipeCustom('food-custom','exp-food-custom','exp-food-custom-label')">Swipe / Update</button>
           </div>
         </div>
 
@@ -451,18 +491,18 @@
           <div class="expense-row">
             <label>Daycare (per child)</label>
             <input type="number" id="exp-daycare" min="0" placeholder="0" />
-            <button class="swipe-btn" onclick="swipeExpense('daycare','exp-daycare')">Swipe / Update</button>
+            <button class="swipe-btn" onclick="swipeExpense('daycare','exp-daycare','Daycare')">Swipe / Update</button>
           </div>
           <div class="expense-row">
             <label>After-School (per child)</label>
             <input type="number" id="exp-afterschool" min="0" placeholder="0" />
-            <button class="swipe-btn" onclick="swipeExpense('afterschool','exp-afterschool')">Swipe / Update</button>
+            <button class="swipe-btn" onclick="swipeExpense('afterschool','exp-afterschool','After-School')">Swipe / Update</button>
           </div>
           <div class="expense-row">
-            <input type="text" id="exp-child-custom-label" placeholder="Custom charge" />
+            <input type="text" id="exp-child-custom-label" placeholder="Custom childcare name" />
             <input type="number" id="exp-child-custom" min="0" placeholder="0" />
             <button class="swipe-btn"
-                    onclick="swipeExpense('child-custom','exp-child-custom','exp-child-custom-label')">Swipe / Update</button>
+              onclick="swipeCustom('child-custom','exp-child-custom','exp-child-custom-label')">Swipe / Update</button>
           </div>
         </div>
 
@@ -472,33 +512,33 @@
           <div class="expense-row">
             <label>Car Loan</label>
             <input type="number" id="exp-carloan" min="0" placeholder="0" />
-            <button class="swipe-btn" onclick="swipeExpense('carloan','exp-carloan')">Swipe / Update</button>
+            <button class="swipe-btn" onclick="swipeExpense('carloan','exp-carloan','Car Loan')">Swipe / Update</button>
           </div>
           <div class="expense-row">
             <label>Auto Insurance</label>
             <input type="number" id="exp-autoins" min="0" placeholder="0" />
-            <button class="swipe-btn" onclick="swipeExpense('autoins','exp-autoins')">Swipe / Update</button>
+            <button class="swipe-btn" onclick="swipeExpense('autoins','exp-autoins','Auto Insurance')">Swipe / Update</button>
           </div>
           <div class="expense-row">
             <label>Fuel</label>
             <input type="number" id="exp-fuel" min="0" placeholder="0" />
-            <button class="swipe-btn" onclick="swipeExpense('fuel','exp-fuel')">Swipe / Update</button>
+            <button class="swipe-btn" onclick="swipeExpense('fuel','exp-fuel','Fuel')">Swipe / Update</button>
           </div>
           <div class="expense-row">
             <label>Maintenance</label>
             <input type="number" id="exp-maint" min="0" placeholder="0" />
-            <button class="swipe-btn" onclick="swipeExpense('maint','exp-maint')">Swipe / Update</button>
+            <button class="swipe-btn" onclick="swipeExpense('maint','exp-maint','Maintenance')">Swipe / Update</button>
           </div>
           <div class="expense-row">
             <label>Transit Pass</label>
             <input type="number" id="exp-transit" min="0" placeholder="0" />
-            <button class="swipe-btn" onclick="swipeExpense('transit','exp-transit')">Swipe / Update</button>
+            <button class="swipe-btn" onclick="swipeExpense('transit','exp-transit','Transit Pass')">Swipe / Update</button>
           </div>
           <div class="expense-row">
-            <input type="text" id="exp-trans-custom-label" placeholder="Custom charge" />
+            <input type="text" id="exp-trans-custom-label" placeholder="Custom transport name" />
             <input type="number" id="exp-trans-custom" min="0" placeholder="0" />
             <button class="swipe-btn"
-                    onclick="swipeExpense('trans-custom','exp-trans-custom','exp-trans-custom-label')">Swipe / Update</button>
+              onclick="swipeCustom('trans-custom','exp-trans-custom','exp-trans-custom-label')">Swipe / Update</button>
           </div>
         </div>
 
@@ -508,28 +548,28 @@
           <div class="expense-row">
             <label>Food & Supplies (per pet)</label>
             <input type="number" id="exp-petfood" min="0" placeholder="0" />
-            <button class="swipe-btn" onclick="swipeExpense('petfood','exp-petfood')">Swipe / Update</button>
+            <button class="swipe-btn" onclick="swipeExpense('petfood','exp-petfood','Pet Food & Supplies')">Swipe / Update</button>
           </div>
           <div class="expense-row">
             <label>Veterinary Care Fund</label>
             <input type="number" id="exp-vetfund" min="0" placeholder="0" />
-            <button class="swipe-btn" onclick="swipeExpense('vetfund','exp-vetfund')">Swipe / Update</button>
+            <button class="swipe-btn" onclick="swipeExpense('vetfund','exp-vetfund','Vet Care Fund')">Swipe / Update</button>
           </div>
           <div class="expense-row">
             <label>Pet Insurance</label>
             <input type="number" id="exp-petins" min="0" placeholder="0" />
-            <button class="swipe-btn" onclick="swipeExpense('petins','exp-petins')">Swipe / Update</button>
+            <button class="swipe-btn" onclick="swipeExpense('petins','exp-petins','Pet Insurance')">Swipe / Update</button>
           </div>
           <div class="expense-row">
-            <label>Grooming/Boarding</label>
+            <label>Grooming / Boarding</label>
             <input type="number" id="exp-groom" min="0" placeholder="0" />
-            <button class="swipe-btn" onclick="swipeExpense('groom','exp-groom')">Swipe / Update</button>
+            <button class="swipe-btn" onclick="swipeExpense('groom','exp-groom','Grooming/Boarding')">Swipe / Update</button>
           </div>
           <div class="expense-row">
-            <input type="text" id="exp-pet-custom-label" placeholder="Custom charge" />
+            <input type="text" id="exp-pet-custom-label" placeholder="Custom pet name" />
             <input type="number" id="exp-pet-custom" min="0" placeholder="0" />
             <button class="swipe-btn"
-                    onclick="swipeExpense('pet-custom','exp-pet-custom','exp-pet-custom-label')">Swipe / Update</button>
+              onclick="swipeCustom('pet-custom','exp-pet-custom','exp-pet-custom-label')">Swipe / Update</button>
           </div>
         </div>
 
@@ -539,42 +579,40 @@
           <div class="expense-row">
             <label>Streaming / Entertainment</label>
             <input type="number" id="exp-stream" min="0" placeholder="0" />
-            <button class="swipe-btn" onclick="swipeExpense('stream','exp-stream')">Swipe / Update</button>
+            <button class="swipe-btn" onclick="swipeExpense('stream','exp-stream','Streaming/Entertainment')">Swipe / Update</button>
           </div>
           <div class="expense-row">
             <label>Gym Membership</label>
             <input type="number" id="exp-gym" min="0" placeholder="0" />
-            <button class="swipe-btn" onclick="swipeExpense('gym','exp-gym')">Swipe / Update</button>
+            <button class="swipe-btn" onclick="swipeExpense('gym','exp-gym','Gym Membership')">Swipe / Update</button>
           </div>
           <div class="expense-row">
             <label>Clothing / Personal Care</label>
             <input type="number" id="exp-clothing" min="0" placeholder="0" />
-            <button class="swipe-btn" onclick="swipeExpense('clothing','exp-clothing')">Swipe / Update</button>
+            <button class="swipe-btn" onclick="swipeExpense('clothing','exp-clothing','Clothing/Personal Care')">Swipe / Update</button>
           </div>
           <div class="expense-row">
-            <input type="text" id="exp-life-custom-label" placeholder="Custom charge" />
+            <input type="text" id="exp-life-custom-label" placeholder="Custom lifestyle name" />
             <input type="number" id="exp-life-custom" min="0" placeholder="0" />
             <button class="swipe-btn"
-                    onclick="swipeExpense('life-custom','exp-life-custom','exp-life-custom-label')">Swipe / Update</button>
+              onclick="swipeCustom('life-custom','exp-life-custom','exp-life-custom-label')">Swipe / Update</button>
           </div>
         </div>
 
       </div>
     </div>
 
-    <!-- Results -->
+    <!-- Results & Download -->
     <div class="card">
       <div class="section-title">5. Budget Snapshot</div>
       <div class="results">
         <div class="result-box">
           <div class="result-label">Gross Monthly Income</div>
           <div class="result-value" id="grossMonthly">$0.00</div>
-          <div class="result-note">Hourly rate × hours/week × 4.33</div>
         </div>
         <div class="result-box">
-          <div class="result-label">Est. Taxes (PA, Local & Payroll)</div>
+          <div class="result-label">Est. Monthly Taxes</div>
           <div class="result-value" id="taxesMonthly">$0.00</div>
-          <div class="result-note">Educational estimate only.</div>
         </div>
         <div class="result-box">
           <div class="result-label">Estimated Take-Home Pay</div>
@@ -590,33 +628,47 @@
           <div class="result-value" id="savingsMonthly">$0.00</div>
         </div>
         <div class="result-box">
-          <div class="result-label">Total Expenses (Excl. Rent & Savings)</div>
+          <div class="result-label">Expenses (Excl. Rent & Savings)</div>
           <div class="result-value" id="totalExpenses">$0.00</div>
         </div>
         <div class="result-box">
-          <div class="result-label">Left After Rent, Savings & Expenses</div>
+          <div class="result-label">Left After All</div>
           <div class="result-value" id="leftover">$0.00</div>
           <div class="result-note" id="safetyNote"></div>
         </div>
       </div>
+      <button class="download-btn" onclick="downloadBudgetCSV()">
+        Download Budget Snapshot & Expenses (CSV)
+      </button>
     </div>
   </div>
 
-  <!-- RIGHT: WPSI Debit Card -->
+  <!-- RIGHT: Skills Initiative Debit Card & Summary -->
   <div class="right-panel">
     <div class="debit-card">
       <div class="debit-chip"></div>
-      <div class="debit-label">West Philadelphia Skilled Initiative</div>
-      <div class="debit-title">WPSI Debit</div>
+      <div class="debit-label">Skills Initiative Initiative</div>
+      <div class="debit-title">Skills Debit</div>
       <div class="debit-balance-label">Available after rent, savings & expenses</div>
       <div class="debit-balance" id="cardBalance">$0.00</div>
       <div class="debit-name" id="cardName">Participant Name</div>
-      <div class="debit-tagline">Practicing real-world money moves with affordable housing choices.</div>
+      <div class="debit-tagline">Practice real-world money moves with smart housing choices.</div>
     </div>
+
     <div class="card">
+      <div class="card-summary">
+        <div class="card-summary-title">Apartment Choice</div>
+        <div id="cardApartment">No apartment selected.</div>
+      </div>
+      <div class="card-summary">
+        <div class="card-summary-title">Monthly Expenses Swiped</div>
+        <ul id="cardExpensesList" class="card-summary-list">
+          <li>No expenses added yet.</li>
+        </ul>
+      </div>
       <p class="side-note">
-        Enter your name, pick a role, housing, savings, and expenses. Each <strong>Swipe / Update</strong> is a
-        decision. Watch how quickly your WPSI Debit balance grows—or goes negative.
+        As participants swipe expenses, this summary shows where their money goes each month—
+        reinforcing conscious spending decisions.
       </p>
     </div>
   </div>
@@ -633,12 +685,12 @@
     { id: 6, type: "2 Bedroom", rent: 1700 }
   ];
 
-  // Simple estimated tax breakdown for educational use
+  // Simplified estimated tax rates for educational use only
   const TAX_RATES = {
-    federal: 0.05,      // simplified
+    federal: 0.05,
     pa: 0.0307,
-    local: 0.038,       // Philly wage estimate
-    fica: 0.0765        // Social Security + Medicare
+    local: 0.038,
+    fica: 0.0765
   };
   const TOTAL_TAX_RATE =
     TAX_RATES.federal +
@@ -664,9 +716,11 @@
   const safetyNoteEl = document.getElementById("safetyNote");
   const cardBalanceEl = document.getElementById("cardBalance");
   const cardNameEl = document.getElementById("cardName");
+  const cardApartmentEl = document.getElementById("cardApartment");
+  const cardExpensesListEl = document.getElementById("cardExpensesList");
 
   let selectedHousing = null;
-  let expenses = {}; // { key: { amount, label } }
+  let expenses = {}; // { key: { label, amount } }
 
   function renderHousingOptions() {
     housingContainer.innerHTML = "";
@@ -693,30 +747,40 @@
   }
 
   function calculateTaxes(gross) {
-    const taxes = gross * TOTAL_TAX_RATE;
-    return taxes;
+    return gross * TOTAL_TAX_RATE;
   }
 
-  function swipeExpense(key, amountInputId, labelInputId) {
+  function swipeExpense(key, amountInputId, defaultLabel) {
     const amountInput = document.getElementById(amountInputId);
     if (!amountInput) return;
-
     const raw = parseFloat(amountInput.value);
     const amount = isNaN(raw) ? 0 : raw;
-
-    let label = key;
-    if (labelInputId) {
-      const labelInput = document.getElementById(labelInputId);
-      if (labelInput && labelInput.value.trim()) {
-        label = labelInput.value.trim();
-      }
-    }
 
     if (amount <= 0) {
       delete expenses[key];
       amountInput.value = "";
     } else {
-      expenses[key] = { amount, label };
+      expenses[key] = { label: defaultLabel, amount };
+    }
+
+    updateAll();
+  }
+
+  function swipeCustom(key, amountInputId, labelInputId) {
+    const amountInput = document.getElementById(amountInputId);
+    const labelInput = document.getElementById(labelInputId);
+    if (!amountInput || !labelInput) return;
+
+    const raw = parseFloat(amountInput.value);
+    const amount = isNaN(raw) ? 0 : raw;
+    const label = labelInput.value.trim() || "Custom Charge";
+
+    if (amount <= 0) {
+      delete expenses[key];
+      amountInput.value = "";
+      // leave label so they can reuse if wanted
+    } else {
+      expenses[key] = { label, amount };
     }
 
     updateAll();
@@ -739,10 +803,34 @@
     cardNameEl.textContent = full || "Participant Name";
   }
 
+  function updateCardApartment() {
+    if (selectedHousing) {
+      cardApartmentEl.textContent =
+        `${selectedHousing.type} • $${selectedHousing.rent.toFixed(2)}/month`;
+    } else {
+      cardApartmentEl.textContent = "No apartment selected.";
+    }
+  }
+
+  function updateCardExpensesList() {
+    cardExpensesListEl.innerHTML = "";
+    const keys = Object.keys(expenses);
+    if (!keys.length) {
+      cardExpensesListEl.innerHTML = "<li>No expenses added yet.</li>";
+      return;
+    }
+    keys.forEach(key => {
+      const exp = expenses[key];
+      const li = document.createElement("li");
+      li.textContent = `${exp.label}: $${exp.amount.toFixed(2)}`;
+      cardExpensesListEl.appendChild(li);
+    });
+  }
+
   function updateAll() {
     const hourly = parseFloat(jobSelect.value) || 0;
     const hoursPerWeek = parseFloat(hoursPerWeekInput.value) || 0;
-    const savingsRate = parseFloat(savingsRateInput.value) || 0;
+    const savingsRate = Math.max(parseFloat(savingsRateInput.value) || 0, 0);
 
     const gross = calculateGrossMonthly(hourly, hoursPerWeek);
     const taxes = calculateTaxes(gross);
@@ -762,7 +850,7 @@
       rentTypeLabelEl.textContent = "No apartment selected.";
     }
 
-    const savings = net * (Math.max(savingsRate, 0) / 100);
+    const savings = net * (savingsRate / 100);
     savingsMonthlyEl.textContent = "$" + savings.toFixed(2);
 
     const totalExpenses = getTotalExpenses();
@@ -775,30 +863,79 @@
     leftoverEl.textContent = "$" + leftover.toFixed(2);
     cardBalanceEl.textContent = "$" + leftover.toFixed(2);
 
-    // Negative styling
+    // Negative or positive styling & messaging
     if (leftover < 0) {
       leftoverEl.classList.add("negative");
       cardBalanceEl.classList.add("negative");
       safetyNoteEl.textContent =
-        "Warning: Your account is negative. Revisit housing, savings, or expenses to get back in balance.";
+        "Warning: Your account is negative. Adjust housing, savings, or expenses to get back in balance.";
     } else {
       leftoverEl.classList.remove("negative");
       cardBalanceEl.classList.remove("negative");
 
       if (!selectedHousing) {
-        safetyNoteEl.textContent = "Choose an apartment to see how your housing choice impacts your balance.";
+        safetyNoteEl.textContent = "Choose an apartment to see how housing impacts your balance.";
       } else if (gross > 0 && rent / gross <= 0.3) {
-        safetyNoteEl.textContent = "Strong choice: Rent is within about 30% of your gross income.";
+        safetyNoteEl.textContent = "Strong choice: Rent is about 30% or less of your gross income.";
       } else if (gross > 0 && rent / gross <= 0.4) {
-        safetyNoteEl.textContent = "Caution: Rent is getting high compared to income. Budget carefully.";
+        safetyNoteEl.textContent = "Caution: Rent is a high share of income. Budget carefully.";
       } else if (gross > 0 && rent > 0) {
-        safetyNoteEl.textContent = "Warning: Rent is a large share of your income. This may be hard to sustain.";
+        safetyNoteEl.textContent = "Warning: Rent is very high compared to income. This may be hard to sustain.";
       } else {
         safetyNoteEl.textContent = "";
       }
     }
 
     updateCardName();
+    updateCardApartment();
+    updateCardExpensesList();
+  }
+
+  function downloadBudgetCSV() {
+    const first = firstNameInput.value.trim();
+    const last = lastNameInput.value.trim();
+    const name = (first + " " + last).trim() || "Participant";
+
+    const gross = grossMonthlyEl.textContent.replace("$", "");
+    const taxes = taxesMonthlyEl.textContent.replace("$", "");
+    const net = netMonthlyEl.textContent.replace("$", "");
+    const rent = rentAmountEl.textContent.replace("$", "");
+    const savings = savingsMonthlyEl.textContent.replace("$", "");
+    const totalExp = totalExpensesEl.textContent.replace("$", "");
+    const leftover = leftoverEl.textContent.replace("$", "");
+
+    let csv = "Category,Label,Amount\n";
+    csv += `Summary,Participant Name,${name}\n`;
+    csv += `Summary,Gross Monthly Income,${gross}\n`;
+    csv += `Summary,Estimated Taxes,${taxes}\n`;
+    csv += `Summary,Net Take-Home Pay,${net}\n`;
+    csv += `Summary,Rent,${rent}\n`;
+    csv += `Summary,Monthly Savings,${savings}\n`;
+    csv += `Summary,Other Expenses (Excl. Rent & Savings),${totalExp}\n`;
+    csv += `Summary,Left After All,${leftover}\n`;
+
+    if (selectedHousing) {
+      csv += `Housing,Apartment Type,${selectedHousing.type}\n`;
+      csv += `Housing,Apartment Rent,${selectedHousing.rent}\n`;
+    }
+
+    const keys = Object.keys(expenses);
+    if (keys.length) {
+      keys.forEach(key => {
+        const exp = expenses[key];
+        csv += `Expense,${exp.label},${exp.amount}\n`;
+      });
+    }
+
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.setAttribute("download", `${name.replace(/\s+/g, "_") || "budget"}_wpsI_budget.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
   }
 
   // Event listeners
